@@ -27,6 +27,13 @@ client.on("connect", function() {
     client.write('Hello, Server.')
 });
 
+client.on('data', function(data) {
+	console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
+	//client.destroy(); // kill client after server's response
+  sendFlag = 1;
+  sendBuffer = data;
+  console.log('Flag Set');
+});
 
 client.on('close', function() {
 	console.log('Connection closed');
@@ -109,13 +116,7 @@ EchoCharacteristic.prototype.checkClient = function() {
   }
 }
 
-client.on('data', function(data) {
-	console.log('Received: ' + data);
-	//client.destroy(); // kill client after server's response
-  sendFlag = 1;
-  sendBuffer = data;
-  console.log('Flag Set');
-});
+
 
 module.exports = EchoCharacteristic;
 
