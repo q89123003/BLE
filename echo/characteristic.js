@@ -100,7 +100,8 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
 };
 
 EchoCharacteristic.prototype.checkClient = function() {
-  console.log("Checking\n");
+  console.log("Checking");
+  console.log("Flag = " + sendFlag.toString())
   if(sendFlag){
     this.ActiveSend(sendBuffer, this._updateValueCallback); 
     sendFlag = 0;
