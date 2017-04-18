@@ -23,10 +23,7 @@ client.on("connect", function() {
     console.log('Connected to sensor.socket');
     client.write('Hello, Server.')
 });
-client.on('data', function(data) {
-	console.log('Received: ' + data);
-	//client.destroy(); // kill client after server's response
-});
+
 
 client.on('close', function() {
 	console.log('Connection closed');
@@ -102,3 +99,12 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
 
 module.exports = EchoCharacteristic;
 
+var main = require('./main');
+
+echochar = main.echochar;
+
+client.on('data', function(data) {
+	console.log('Received: ' + data);
+	//client.destroy(); // kill client after server's response
+  echochar.ActiveSend(data);
+});
