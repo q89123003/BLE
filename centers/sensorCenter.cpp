@@ -40,6 +40,7 @@ class Tester{
 };
 
 Tester tester;
+struct timeval tp;
 
 int findSensor(Sensor* sensorArray, string mac, int sensorCount){
   for(int i = 0; i <= sensorCount; i++){
@@ -61,6 +62,7 @@ int getNum(int, int);
 int getDirection(int, int);
 
 int main(int argc, char *argv[]) {
+  long int connectedTime;
   int selfNum = -1;
 
   fstream fin;
@@ -268,6 +270,10 @@ int main(int argc, char *argv[]) {
               sendBuffer[0] = '0';
               sprintf(sendBuffer+1,"%d", selfNum);
               send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+
+              gettimeofday(&tp, NULL);
+              connectedTime = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+
               break;
 
             case 't':{
@@ -337,27 +343,32 @@ int main(int argc, char *argv[]) {
 
       if(tester.isDone() != 1 && selfNum != 2 && selfNum != -1)
       {
-        char sendBuffer[32];
-        char countBuffer[8];
-        char selfNumBuffer[8];
-        memset(&sendBuffer, 0, sizeof(sendBuffer));
-        memset(&countBuffer, 0, sizeof(countBuffer));
-        memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
-        sprintf(countBuffer, "%d\0", tester.getSendCount());
-        sprintf(selfNumBuffer, "%d\0", selfNum);
-        strcpy(sendBuffer, "t");
-        strcat(sendBuffer, "2");
-        strcat(sendBuffer, "@");
-        strcat(sendBuffer, selfNumBuffer);
-        strcat(sendBuffer, "@");
-        strcat(sendBuffer, countBuffer);
-
-        cout << "Sending Out " << sendBuffer << endl;
-        struct timeval tp;
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-        tester.send(ms);
-        send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+
+        if (ms - connectedTime >= 2000){
+          char sendBuffer[32];
+          char countBuffer[8];
+          char selfNumBuffer[8];
+          memset(&sendBuffer, 0, sizeof(sendBuffer));
+          memset(&countBuffer, 0, sizeof(countBuffer));
+          memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
+          sprintf(countBuffer, "%d\0", tester.getSendCount());
+          sprintf(selfNumBuffer, "%d\0", selfNum);
+          strcpy(sendBuffer, "t");
+          strcat(sendBuffer, "2");
+          strcat(sendBuffer, "@");
+          strcat(sendBuffer, selfNumBuffer);
+          strcat(sendBuffer, "@");
+          strcat(sendBuffer, countBuffer);
+
+          cout << "Sending Out " << sendBuffer << endl;
+          
+          gettimeofday(&tp, NULL);
+          ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          tester.send(ms);
+          send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+        }
       }
 
   }
