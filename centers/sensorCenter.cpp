@@ -349,6 +349,7 @@ int main(int argc, char *argv[]) {
         strcat(sendBuffer, "@");
         strcat(sendBuffer, countBuffer);
 
+        cout << "Sending Out " << sendBuffer << endl;
         struct timeval tp;
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
