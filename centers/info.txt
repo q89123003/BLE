@@ -1,0 +1,4 @@
+type 1
+power 2
+MAC B8:27:EB:A9:49:F0
+service 4

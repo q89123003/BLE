@@ -1,0 +1,2 @@
+python scan.py
+./sensorCenter
