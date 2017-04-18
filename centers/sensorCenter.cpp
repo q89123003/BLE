@@ -357,7 +357,7 @@ int main(int argc, char *argv[]) {
           }
       }
 
-      if(tester.isDone() != 1 && selfNum != 2 && selfNum != -1)
+      if(myType == 0 && tester.isDone() != 1 && selfNum != 2 && selfNum != -1)
       {
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
