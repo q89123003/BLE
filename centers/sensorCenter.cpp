@@ -42,7 +42,7 @@ class Tester{
       recvCount++;
       if(count == TESTTIME - 1){
         cout << "Test Done!" << endl;
-        cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << " (" << recvCount << '/' << TESTTIME << ")" << endl;
+        cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << "% (" << recvCount << '/' << TESTTIME << ")" << endl;
         cout << "Average RTT = " << totalRTT / recvCount << endl; 
       }
     };
