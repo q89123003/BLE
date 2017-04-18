@@ -111,7 +111,7 @@ EchoCharacteristic.prototype.checkClient = function() {
   //console.log("Flag = " + sendFlag.toString());
   if(sendFlag){
     console.log("Send Flag == 1");
-    this.ActiveSend(sendBuffer, this._updateValueCallback); 
+    ActiveSend(sendBuffer, this._updateValueCallback); 
     sendFlag = 0;
   }
 }
