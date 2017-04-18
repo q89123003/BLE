@@ -106,5 +106,5 @@ echochar = main.echochar;
 client.on('data', function(data) {
 	console.log('Received: ' + data);
 	//client.destroy(); // kill client after server's response
-  echochar.ActiveSend(data);
+  echochar.ActiveSend(data, echochar._updateValueCallback);
 });
