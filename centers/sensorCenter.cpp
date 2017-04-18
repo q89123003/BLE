@@ -35,7 +35,7 @@ class Tester{
     bool isDone(){return sendCount == TESTTIME;};
     int getSendCount() { return sendCount;};
     void send(long int time){sendTime[sendCount] = time; sendCount++;};
-    void recv(int count, int time){sendTime[count] = time;};
+    void recv(int count, int time){recvTime[count] = time;};
     int RTT(int count){ return recvTime[count] - sendTime[count];};
 };
 
