@@ -212,8 +212,10 @@ int main(int argc, char *argv[]) {
                     cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
                 }
 
-                else{
+                 else{
+                  string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
                   char sendBuffer[32];
+                  memset(&sendBuffer, 0, sizeof(sendBuffer));
                   char countBuffer[8];
                   char selfNumBuffer[8];
                   char targetNumBuffer[8];
@@ -221,6 +223,7 @@ int main(int argc, char *argv[]) {
                   sprintf(countBuffer, "%d\0", packetCount);
                   sprintf(selfNumBuffer, "%d\0", selfNum);
                   strcpy(sendBuffer, "t");
+                  strcat(sendBuffer, linkMAC.c_str());
                   strcat(sendBuffer, targetNumBuffer);
                   strcat(sendBuffer, "@");
                   strcat(sendBuffer, selfNumBuffer);
@@ -303,7 +306,9 @@ int main(int argc, char *argv[]) {
                 }
 
                 else{
+                  string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
                   char sendBuffer[32];
+                  memset(&sendBuffer, 0, sizeof(sendBuffer));
                   char countBuffer[8];
                   char selfNumBuffer[8];
                   char targetNumBuffer[8];
@@ -311,6 +316,7 @@ int main(int argc, char *argv[]) {
                   sprintf(countBuffer, "%d\0", packetCount);
                   sprintf(selfNumBuffer, "%d\0", selfNum);
                   strcpy(sendBuffer, "t");
+                  strcat(sendBuffer, linkMAC.c_str());
                   strcat(sendBuffer, targetNumBuffer);
                   strcat(sendBuffer, "@");
                   strcat(sendBuffer, selfNumBuffer);
