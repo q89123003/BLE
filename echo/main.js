@@ -64,6 +64,6 @@ function intervalFunc () {
 }
 
 setInterval(intervalFunc, 2000);
-setInterval(echochar.checkClient, 50);
+setInterval(function(){ echochar.checkClient(echochar._updateValueCallback); }, 50);
 
 //exports.echochar = echochar;

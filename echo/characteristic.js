@@ -106,12 +106,12 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
   this._updateValueCallback = null;
 };
 
-EchoCharacteristic.prototype.checkClient = function() {
+EchoCharacteristic.prototype.checkClient = function(callback) {
   //console.log("Checking");
   //console.log("Flag = " + sendFlag.toString());
   if(sendFlag){
     console.log("Send Flag == 1");
-    ActiveSend(sendBuffer, this._updateValueCallback); 
+    callback(sendBuffer); 
     sendFlag = 0;
   }
 }
