@@ -384,6 +384,8 @@ int main(int argc, char *argv[]) {
           ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
           tester.send(ms);
           send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+
+          connectedTime = ms;
         }
       }
 
