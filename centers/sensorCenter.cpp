@@ -26,7 +26,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 1000;
+    const static int TESTTIME = 1;
   public:
     int sendCount;
     long int sendTime[TESTTIME];
@@ -340,6 +340,9 @@ int main(int argc, char *argv[]) {
         char sendBuffer[32];
         char countBuffer[8];
         char selfNumBuffer[8];
+        memset(&sendBuffer, 0, sizeof(sendBuffer));
+        memset(&countBuffer, 0, sizeof(countBuffer));
+        memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
         sprintf(countBuffer, "%d\0", tester.getSendCount());
         sprintf(selfNumBuffer, "%d\0", selfNum);
         strcpy(sendBuffer, "t");
