@@ -26,17 +26,27 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 1;
+    const static int TESTTIME = 200;
   public:
     int sendCount;
+    int recvCount;
+    long int totalRTT;
     long int sendTime[TESTTIME];
     long int recvTime[TESTTIME];
-    Tester(){sendCount = 0;};
+    Tester(){sendCount = 0; recvCount = 0; totalRTT = 0;};
     bool isDone(){return sendCount == TESTTIME;};
     int getSendCount() { return sendCount;};
     void send(long int time){sendTime[sendCount] = time; sendCount++;};
-    void recv(int count, int time){recvTime[count] = time;};
-    int RTT(int count){ return recvTime[count] - sendTime[count];};
+    void recv(int count, int time){
+      recvTime[count] = time;
+      recvCount++;
+      if(time == TESTTIME - 1){
+        cout << "Test Done!" << endl;
+        cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << " (" << recvCount << '/' << TESTTIME << ")" << endl 
+        cout << "Average RTT = " << totalRTT / recvCount << endl; 
+      }
+    };
+    long int RTT(int count){ totalRTT += recvTime[count] - sendTime[count]; return recvTime[count] - sendTime[count];};
 };
 
 Tester tester;
