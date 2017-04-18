@@ -26,7 +26,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 100;
+    const static int TESTTIME = 50;
   public:
     int sendCount;
     int recvCount;
