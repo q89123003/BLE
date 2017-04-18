@@ -31,7 +31,7 @@ bleno.on('stateChange', function(state) {
 var echochar = new EchoCharacteristic()
 
 bleno.on('advertisingStart', function(error) {
-  console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
+  //console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
 
   if (!error) {
     bleno.setServices([
@@ -53,7 +53,7 @@ function intervalFunc () {
     bleno.startAdvertising(array[0] + ' ' +array[1], ['ec00']);
   }
   else{
-    console.log("Connected. Stop Advertising.");
+    //console.log("Connected. Stop Advertising.");
     bleno.stopAdvertising();
   }
   if(echochar._subscribeFlag == 1){
