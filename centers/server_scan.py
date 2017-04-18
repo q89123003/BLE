@@ -4,10 +4,16 @@ from gattlib import DiscoveryService
 import socket, sys, time
 import pandas as pd
 
+banList = set("AA:BB:CC:DD:EE:FF")
 info = pd.read_csv('info.txt', header = None)
 power = int(info[0][1].split(' ')[1])
 type = int(info[0][0].split(' ')[1])
 mac = info[0][2].split(' ')[1]
+
+for i in range(4, info.shape[0]):
+    ban = info[0][i].split(' ')[1]
+    banList.add(ban)
+
 print power, type, mac
 
 sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -43,7 +49,7 @@ while True:
     for address, name in devices.items():
         print("name: {}, address: {}".format(name, address));
         #print(address[0])
-        if address == mac:
+        if address in banList:
             continue
         wordlist = name.split(' ')
 
