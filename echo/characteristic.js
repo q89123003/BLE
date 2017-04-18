@@ -28,11 +28,7 @@ client.on("connect", function() {
 });
 
 client.on('data', function(data) {
-	console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
-	//client.destroy(); // kill client after server's response
-  sendFlag = 1;
-  sendBuffer = data;
-  console.log('Flag Set');
+  	console.log('Received: ' + data);
 });
 
 client.on('close', function() {
@@ -45,7 +41,11 @@ sensorCon.on("connect", function() {
     sensorCon.write('Hello, Server.')
 });
 sensorCon.on('data', function(data) {
-	console.log('Received: ' + data);
+  console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
+	//client.destroy(); // kill client after server's response
+  sendFlag = 1;
+  sendBuffer = data;
+  console.log('Flag Set');
 });
 
 sensorCon.on('close', function() {
