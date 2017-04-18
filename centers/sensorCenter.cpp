@@ -287,7 +287,7 @@ int main(int argc, char *argv[]) {
               strcpy(toToken, buf_node);
               token = strtok(toToken + 1, "@");
               int targetNum = atoi(token);
-              cout << "Target Num: " << targetNum;
+              cout << "Target Num: " << targetNum << endl;
               int direction = getDirection(targetNum, selfNum);
 
               if(direction == 0){
