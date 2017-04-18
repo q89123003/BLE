@@ -26,7 +26,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 200;
+    const static int TESTTIME = 100;
   public:
     int sendCount;
     int recvCount;
@@ -51,7 +51,7 @@ class Tester{
 
 Tester tester;
 struct timeval tp;
-
+int interval = 2000;
 int findSensor(Sensor* sensorArray, string mac, int sensorCount){
   for(int i = 0; i <= sensorCount; i++){
     if( sensorArray[i].mac == mac ) return i;
@@ -362,7 +362,7 @@ int main(int argc, char *argv[]) {
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 
-        if (ms - connectedTime >= 2000){
+        if (ms - connectedTime >= interval){
           char sendBuffer[32];
           char countBuffer[8];
           char selfNumBuffer[8];
@@ -386,6 +386,7 @@ int main(int argc, char *argv[]) {
           send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
 
           connectedTime = ms;
+          interval = 500;
         }
       }
 
