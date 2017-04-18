@@ -103,8 +103,21 @@ var main = require('./main');
 
 echochar = main.echochar;
 
+var sendFlag = 0;
+
 client.on('data', function(data) {
 	console.log('Received: ' + data);
 	//client.destroy(); // kill client after server's response
-  echochar.ActiveSend(data, echochar._updateValueCallback);
+  sendFlag = 1;
 });
+
+
+function intervalFunc () {
+  if(sendFlag == 1){
+    console.log("Calling ActiveSend From Socket Client");
+    sendFlag = 0;
+    echochar.ActiveSend(data, echochar._updateValueCallback);
+  }
+}
+
+setInterval(intervalFunc, 50);
