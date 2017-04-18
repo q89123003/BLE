@@ -101,7 +101,7 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
 
 EchoCharacteristic.prototype.checkClient = function() {
   console.log("Checking");
-  console.log("Flag = " + sendFlag.toString())
+  console.log("Flag = " + sendFlag.toString());
   if(sendFlag){
     this.ActiveSend(sendBuffer, this._updateValueCallback); 
     sendFlag = 0;
@@ -113,6 +113,7 @@ client.on('data', function(data) {
 	//client.destroy(); // kill client after server's response
   sendFlag = 1;
   sendBuffer = data;
+  console.log('Flag Set');
 });
 
 module.exports = EchoCharacteristic;
