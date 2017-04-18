@@ -16,6 +16,9 @@ typeID = arr[1];
 arr = array[3].split(' ');
 serviceID = arr[1];
 
+var sendFlag = 0;
+var sendBuffer = "";
+
 var net = require('net');
 
 var client = net.createConnection("/tmp/scan_node.socket");
@@ -96,22 +99,29 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
   this._updateValueCallback = null;
 };
 
-
-module.exports = EchoCharacteristic;
-
-var main = require('./main');
-
-echochar = main.echochar;
-
-var sendFlag = 0;
+EchoCharacteristic.prototype.checkClient = function() {
+  if(sendFlag){
+    this.ActiveSend(sendBuffer, this._updateValueCallback); 
+    sendFlag = 0;
+  }
+}
 
 client.on('data', function(data) {
 	console.log('Received: ' + data);
 	//client.destroy(); // kill client after server's response
   sendFlag = 1;
+  sendBuffer = data;
 });
 
+module.exports = EchoCharacteristic;
 
+//'var main = require('./main');
+
+//echochar = main.echochar;
+
+
+
+/*
 function intervalFunc () {
   if(sendFlag == 1){
     console.log("Calling ActiveSend From Socket Client");
@@ -119,5 +129,4 @@ function intervalFunc () {
     echochar.ActiveSend(data, echochar._updateValueCallback);
   }
 }
-
-setInterval(intervalFunc, 50);
+*/

@@ -64,5 +64,6 @@ function intervalFunc () {
 }
 
 setInterval(intervalFunc, 2000);
+setInterval(echochar.checkClient, 50);
 
-exports.echochar = echochar;
+//exports.echochar = echochar;
