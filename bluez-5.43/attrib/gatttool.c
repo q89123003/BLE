@@ -74,15 +74,15 @@ static gboolean opt_char_write = FALSE;
 static gboolean opt_char_write_req = FALSE;
 static gboolean opt_interactive = FALSE;
 
-/////////////my code
+//-----------------------for server option-------------------------//
 static gboolean opt_server = FALSE;
-/////////////my code
+//----------------------------------------------------------------//
 
 static GMainLoop *event_loop;
 static gboolean got_error = FALSE;
 static GSourceFunc operation;
 
-///////////my code
+//----------------------------my code (variables)---------------------------------//
 static gint scanCounter = 20;
 static gint centerCounter = 20;
 
@@ -119,8 +119,8 @@ struct MAP map[MAX_MAP_SIZE];
 
 int selfNum;
 int connectCount = 0;
+//--------------------------------------my code (variable)------------------------//
 
-///////////my code
 struct characteristic_data {
 	GAttrib *attrib;
 	uint16_t start;
@@ -565,8 +565,10 @@ static GOptionEntry gatt_options[] = {
 		"Listen for notifications and indications", NULL },
 	{ "interactive", 'I', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
 		&opt_interactive, "Use interactive mode", NULL },
+	//----------------------------Register Option---------------------------------//
 	{ "server", 'S', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
 	&opt_server, "Use server mode", NULL },
+	//---------------------------------------------------------------------------//
 	{ NULL },
 };
 
@@ -586,7 +588,7 @@ static GOptionEntry options[] = {
 	{ NULL },
 };
 
-////////////////my code
+////////////////my code (functions) ////////////////////////////////////////
 static void myEvents_handler(const uint8_t *pdu, uint16_t len, gpointer user_data)
 {
 	//GAttrib *attrib = user_data;
@@ -838,6 +840,7 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 	connectingFlag  = 0;
 }
 
+//------------------------------Receive message from scan center----------------------------//
 static gboolean checkScan(gpointer arg)
 {
     //g_print(".");
@@ -886,7 +889,9 @@ static gboolean checkScan(gpointer arg)
     //定时器继续运行
     return TRUE;
 }
+//------------------------------------------------------------------------//
 
+//--------------------------------Receive message from sensor center---------------------------//
 static gboolean checkCenters(gpointer arg)
 {
     //g_print(".");
@@ -979,7 +984,9 @@ static gboolean checkCenters(gpointer arg)
     //定时器继续运行
     return TRUE;
 }
+//-----------------------------------------------------------------//
 
+//----------------------------------no use now--------------------------------------//
 static gboolean checkAuth(gpointer arg){
 	if(--centerCounter == 0){
         //g_print("\b\b\b\b\b\b\b\b\b");
@@ -1021,7 +1028,8 @@ static gboolean checkAuth(gpointer arg){
     //定时器继续运行
     return TRUE;
 }
-//////////////////my code
+//------------------------------------------------------------------//
+//////////////////my code (functions)/////////////////////////
 
 int main(int argc, char *argv[])
 {
