@@ -5,7 +5,7 @@ import socket, sys, time
 import pandas as pd
 
 banList = set("AA:BB:CC:DD:EE:FF")
-info = pd.read_csv('info.txt', header = None)
+info = pd.read_csv('../../info.txt', header = None)
 power = int(info[0][1].split(' ')[1])
 type = int(info[0][0].split(' ')[1])
 mac = info[0][2].split(' ')[1]
