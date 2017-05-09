@@ -7,7 +7,7 @@ var BlenoCharacteristic = bleno.Characteristic;
 
 var fs = require('fs');
 
-var array = fs.readFileSync('../../info.txt').toString().split("\n");
+var array = fs.readFileSync('/home/pi/Documents/info.txt').toString().split("\n");
 for(i in array) {
     console.log(array[i]);
 }

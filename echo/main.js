@@ -7,7 +7,7 @@ var EchoCharacteristic = require('./characteristic');
 var startAdvertisingFlag = 1;
 var fs = require('fs');
 
-var array = fs.readFileSync('../../info.txt').toString().split("\n");
+var array = fs.readFileSync('/home/pi/Documents/info.txt').toString().split("\n");
 var arr = array[0].split(' ');
 typeID = arr[1];
 arr = array[3].split(' ');

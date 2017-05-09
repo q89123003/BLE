@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
   fstream fin;
   char line[16];
   char* token;
-	fin.open("info.txt",ios::in);
+	fin.open("/home/pi/Documents/info.txt",ios::in);
 	
   fin.getline(line, sizeof(line), '\n');
   token = strtok(line, " ");
