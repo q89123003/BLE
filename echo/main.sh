@@ -1,1 +1,1 @@
-sudo BLENO_HCI_DEVICE_ID=1 node main.js
+sudo BLENO_HCI_DEVICE_ID=1 node /home/pi/Documents/BLE/echo/main.js
