@@ -44,8 +44,14 @@ while True:
     if(data == 'CON_SIG'):
         print 'Set CON_SIG'
         CON_SIG_TIMER = x
-    service = DiscoveryService("hci1");
-    devices = service.discover(1);
+    try:
+        service = DiscoveryService("hci1");
+        devices = service.discover(1);
+    except:
+        print("Exception when discoverying");
+        time.sleep(1)
+        continue
+        
     for address, name in devices.items():
         print("name: {}, address: {}".format(name, address));
         #print(address[0])
