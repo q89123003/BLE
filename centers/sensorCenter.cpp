@@ -11,6 +11,8 @@
 
 #define MaxSensorNum 7
 
+#define TesterTargetNum 9
+
 using namespace std;
 //char *socket_path = "./socket";
 char socket_path[32] = "/tmp/sensor.socket";
@@ -214,7 +216,7 @@ int main(int argc, char *argv[]) {
                 token = strtok(NULL, "@");
                 int packetCount = atoi(token);
 
-                if( targetNum != 2 ){
+                if( targetNum != TesterTargetNum ){
                     struct timeval tp;
                     gettimeofday(&tp, NULL);
                     long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
@@ -357,7 +359,7 @@ int main(int argc, char *argv[]) {
           }
       }
 
-      if(myType == 0 && tester.isDone() != 1 && selfNum != 2 && selfNum != -1)
+      if(myType == 0 && tester.isDone() != 1 && selfNum != TesterTargetNum && selfNum != -1)
       {
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
@@ -366,13 +368,15 @@ int main(int argc, char *argv[]) {
           char sendBuffer[32];
           char countBuffer[8];
           char selfNumBuffer[8];
+          char targetNumBuffer[8];
           memset(&sendBuffer, 0, sizeof(sendBuffer));
           memset(&countBuffer, 0, sizeof(countBuffer));
           memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
           sprintf(countBuffer, "%d\0", tester.getSendCount());
           sprintf(selfNumBuffer, "%d\0", selfNum);
+          sprintf(targetNumBuffer, "%d\0", TesterTargetNum);
           strcpy(sendBuffer, "t");
-          strcat(sendBuffer, "2");
+          strcat(sendBuffer, targetNumBuffer);
           strcat(sendBuffer, "@");
           strcat(sendBuffer, selfNumBuffer);
           strcat(sendBuffer, "@");
