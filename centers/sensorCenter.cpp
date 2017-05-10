@@ -67,7 +67,7 @@ string getMacByNum(Sensor* sensorArray, int Num, int sensorCount){
     if( sensorArray[i].number == Num )
       return sensorArray[i].mac;
   }
-  cout << "Can't not find connection!\n";
+  cout << "Can't find connection!\n";
 }
 
 int getNum(int, int);
