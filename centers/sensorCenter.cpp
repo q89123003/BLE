@@ -309,7 +309,7 @@ int main(int argc, char *argv[]) {
                 token = strtok(NULL, "@");
                 int packetCount = atoi(token);
 
-                if( targetNum != 2 ){
+                if( targetNum != TesterTargetNum ){
                     struct timeval tp;
                     gettimeofday(&tp, NULL);
                     long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
