@@ -1,0 +1,34 @@
+Bleno to TinyB (in notification callback):
+    1.
+        Receive from Bleno: n senso_type service_type (eg. n14)
+        Send to Sensor Center: n MAC senso_type service_type (eg. nAA:BB:CC:DD:EE:FF14) // cat MAC in middle
+    2.
+        Receive from Bleno: t payload (eg. tabcd)
+        Send to Sensor Center: t payload (eg. tabcd) //no change
+
+Scan Center to TinyB (in Socket Received)
+    1.
+        Receive from Scan Center: MAC (eg. AA:BB:CC:DD:EE:FF)
+        Connect to MAC
+
+Sensor Center to TinyB (in Socket Received)
+    1.
+        Receive from Sensor Center: 0 selfNum (eg. 05)
+        Maintain a variable "selfNum = 5"
+    2.
+        Receive from Sensor Center: t MAC payload (eg. tAA:BB:CC:DD:EE:FFabcd)
+        Send to Bleno: t payload (eg. tabcd)
+    3.
+
+Connection callback
+    1.
+        Maintain a variable "ConnectionCount"
+        Start from 1. "ConnectionCount += 1" after every successful connection.
+    2.
+        Send to Sensor Center: 0 ConnectionCount (eg. 01)
+        Note that this ConnectionCount has not yet plussed 1.
+    3. 
+        Send to Bleno : n selfNum @ connectionNum (eg. n5@1)
+        Note that this ConnectionCount has not yet plussed 1.
+    4.
+        ConnectionCount += 1

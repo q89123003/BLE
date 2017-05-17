@@ -734,9 +734,11 @@ static void myEvents_handler(const uint8_t *pdu, uint16_t len, gpointer user_dat
 			toSend[18] = value[1];
 			toSend[19] = value[2];
 			toSend[20] = 0;
+			//Tell sensor center there is a new child. n MAC sensor_type service_type
 			send(sockfd_sensor, toSend, strlen(toSend), MSG_DONTWAIT);
 			break;
 		case 0x74: //'t', packet in tree network
+			//Transmit to Sensor Center without change
 			send(sockfd_sensor, value, strlen(value), MSG_DONTWAIT);
 			break;			
 
@@ -815,9 +817,10 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 		g_attrib_register(map[MapIndex].attrib, ATT_OP_HANDLE_NOTIFY, GATTRIB_ALL_HANDLES,
 						myEvents_handler, str, NULL);
 		if(map[MapIndex].MAC[0] == 'b' || map[MapIndex].MAC[0] == '0' || map[MapIndex].MAC[0] == '5'){
-			connectCount++;
+			connectCount++; //Maintain the connectCount
 			sendBuffer[0] = '0';
 			sprintf(sendBuffer+1, "%d", connectCount);
+			//Send to Sensor Center "0 connectCount" to maintain the connectCount in Sensor Center
 			send(sockfd_sensor, sendBuffer, sizeof(sendBuffer), MSG_DONTWAIT);
 
 			sendBuffer[0] = 'n';
@@ -826,6 +829,7 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 			char c[2];
 			sprintf(c, "%d", connectCount);
 			strcat(sendBuffer, c);
+			//Tell the child "n selfNum @ connectCounnt"
 			gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);	 
 		}
 		gatt_write_char(map[MapIndex].attrib, 0x000d, value, len, char_write_req_cb, NULL);
@@ -850,6 +854,9 @@ static gboolean checkScan(gpointer arg)
         //退出循环
         //注销定时器
         bytes_read = recv(sockfd_scan, buffer, sizeof(buffer), MSG_DONTWAIT);
+
+		//Receive MAC
+
         if(bytes_read > 0 && connectingFlag == 0){
 			connectingFlag = 1;
         	GError *gerr = NULL;
@@ -858,6 +865,7 @@ static gboolean checkScan(gpointer arg)
         	g_print("%s\n", buffer);
 	        	if(buffer[0] == '9' || buffer[0] == 'b' || buffer[0] == '5' || buffer[0] == '0')
 	        	{
+					//Connect to MAC
 					g_print("connect to public device\n");
 	        		chan = gatt_connect("hci0", buffer, "public", "low",
 							0, 0, myConnect_cb, &gerr);
@@ -932,19 +940,25 @@ static gboolean checkCenters(gpointer arg)
         		char mac[18];
         		char payload[20];
         		char packet[32];
+				// get the MAC
         		strncpy(mac, buffer2 + 1, 17);
         		mac[17] = 0;
         		g_print("Sensor MAC: %s\n", mac);
+
+				//get the payload
         		strcpy(payload, buffer2 + 18);
         		g_print("Finding...\n");
         		int i;
         		for(i = 0; i < MapSize; i++){
+
+					//Find Connection by MAC
         			if(strcmp(map[i].MAC, mac) == 0)
         			{
         				g_print("Found\n");
         				targetAtt = map[i].attrib;
         				strcpy(packet, "t");
         				strcat(packet, payload);
+						//Send t payload to child
         				gatt_write_char(targetAtt, 0x000c, packet, strlen(packet), char_write_req_cb, NULL);
         				break;
         			}
@@ -975,7 +989,7 @@ static gboolean checkCenters(gpointer arg)
         			}
         		}
         	}
-			else if(buffer2[0] == '0'){
+			else if(buffer2[0] == '0'){ //Maintain the selfNum to connect to others
 				selfNum = atoi(buffer2 + 1);
 			}
     	}
