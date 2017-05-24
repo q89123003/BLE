@@ -65,4 +65,4 @@ function intervalFunc () {
 
 setInterval(intervalFunc, 2000);
 
-//exports.echochar = echochar;
+exports.echochar = echochar;
