@@ -2,8 +2,8 @@ var bleno = require('../bleno');
 
 var BlenoPrimaryService = bleno.PrimaryService;
 
-var EchoCharacteristic = require('./characteristic_v2');
-
+var EchoCharacteristic = require('./characteristic_v2').EchoCharacteristic;
+var sensorCon = require('./characteristic_v2').sensorCon;
 var startAdvertisingFlag = 1;
 var fs = require('fs');
 
@@ -65,4 +65,9 @@ function intervalFunc () {
 
 setInterval(intervalFunc, 2000);
 
-exports.echochar = echochar;
+sensorCon.on('data', function(data) {
+  console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
+	//client.destroy(); // kill client after server's response
+  echochar.ActiveSend(data, echochar._updateValueCallback);
+});
+//exports.echochar = echochar;

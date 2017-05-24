@@ -111,17 +111,13 @@ EchoCharacteristic.prototype.checkClient = function(callback) {
 
 
 
-module.exports = EchoCharacteristic;
+module.exports.EchoCharacteristic = EchoCharacteristic;
+module.exports.sensorCon = sensorCon;
 
-var main = require('./main_v2');
+//var main = require('./main_v2');
 
-echochar = main.echochar;
+//echochar = main.echochar;
 
-sensorCon.on('data', function(data) {
-  console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
-	//client.destroy(); // kill client after server's response
-  echochar.ActiveSend(data, echochar._updateValueCallback)
-});
 
 /*
 function intervalFunc () {
