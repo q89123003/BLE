@@ -226,7 +226,21 @@ int main(int argc, char *argv[]) {
 
                  else{
                   if(getDirection(returnTargetNum, selfNum) == -1){
-                    send(clientfd_node, buf, 32, MSG_DONTWAIT);
+                    char sendBuffer[32];
+                    memset(&sendBuffer, 0, sizeof(sendBuffer));
+                    char countBuffer[8];
+                    char selfNumBuffer[8];
+                    char targetNumBuffer[8];
+                    sprintf(targetNumBuffer, "%d\0", returnTargetNum);
+                    sprintf(countBuffer, "%d\0", packetCount);
+                    sprintf(selfNumBuffer, "%d\0", selfNum);
+                    strcpy(sendBuffer, "t");
+                    strcat(sendBuffer, targetNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, selfNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, countBuffer);
+                    send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
                   }
                   else{
                   string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
@@ -324,27 +338,41 @@ int main(int argc, char *argv[]) {
 
                 else{
                   if(getDirection(returnTargetNum, selfNum) == -1){
-                    send(clientfd_node, buf_node, 32, MSG_DONTWAIT);
+                    char sendBuffer[32];
+                    memset(&sendBuffer, 0, sizeof(sendBuffer));
+                    char countBuffer[8];
+                    char selfNumBuffer[8];
+                    char targetNumBuffer[8];
+                    sprintf(targetNumBuffer, "%d\0", returnTargetNum);
+                    sprintf(countBuffer, "%d\0", packetCount);
+                    sprintf(selfNumBuffer, "%d\0", selfNum);
+                    strcpy(sendBuffer, "t");
+                    strcat(sendBuffer, targetNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, selfNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, countBuffer);
+                    send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
                   }
                   else{
-                  string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
-                  char sendBuffer[32];
-                  memset(&sendBuffer, 0, sizeof(sendBuffer));
-                  char countBuffer[8];
-                  char selfNumBuffer[8];
-                  char targetNumBuffer[8];
-                  sprintf(targetNumBuffer, "%d\0", returnTargetNum);
-                  sprintf(countBuffer, "%d\0", packetCount);
-                  sprintf(selfNumBuffer, "%d\0", selfNum);
-                  strcpy(sendBuffer, "t");
-                  strcat(sendBuffer, linkMAC.c_str());
-                  strcat(sendBuffer, targetNumBuffer);
-                  strcat(sendBuffer, "@");
-                  strcat(sendBuffer, selfNumBuffer);
-                  strcat(sendBuffer, "@");
-                  strcat(sendBuffer, countBuffer);
+                    string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
+                    char sendBuffer[32];
+                    memset(&sendBuffer, 0, sizeof(sendBuffer));
+                    char countBuffer[8];
+                    char selfNumBuffer[8];
+                    char targetNumBuffer[8];
+                    sprintf(targetNumBuffer, "%d\0", returnTargetNum);
+                    sprintf(countBuffer, "%d\0", packetCount);
+                    sprintf(selfNumBuffer, "%d\0", selfNum);
+                    strcpy(sendBuffer, "t");
+                    strcat(sendBuffer, linkMAC.c_str());
+                    strcat(sendBuffer, targetNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, selfNumBuffer);
+                    strcat(sendBuffer, "@");
+                    strcat(sendBuffer, countBuffer);
 
-                  send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+                    send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
                   }
                 }
                 
