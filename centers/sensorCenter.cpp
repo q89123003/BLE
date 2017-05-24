@@ -324,7 +324,7 @@ int main(int argc, char *argv[]) {
 
                 else{
                   if(getDirection(returnTargetNum, selfNum) == -1){
-                    send(clientfd_node, buf, 32, MSG_DONTWAIT);
+                    send(clientfd_node, buf_node, 32, MSG_DONTWAIT);
                   }
                   else{
                   string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
