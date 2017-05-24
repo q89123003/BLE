@@ -66,7 +66,7 @@ function intervalFunc () {
 setInterval(intervalFunc, 2000);
 
 sensorCon.on('data', function(data) {
-  console.log('Received: ' + data + '. Flag = ' + sendFlag.toString());
+  console.log('Received: ' + data);
 	//client.destroy(); // kill client after server's response
   echochar.ActiveSend(data, echochar._updateValueCallback);
 });
