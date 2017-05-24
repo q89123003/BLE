@@ -11,7 +11,7 @@
 
 #define MaxSensorNum 7
 
-#define TesterTargetNum 7
+#define TesterTargetNum 9
 
 using namespace std;
 //char *socket_path = "./socket";
