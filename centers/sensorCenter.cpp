@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include <math.h>
+#include <map>
 
 #define MaxSensorNum 7
 
@@ -51,6 +52,7 @@ class Tester{
     long int RTT(int count){ totalRTT += recvTime[count] - sendTime[count]; return recvTime[count] - sendTime[count];};
 };
 
+
 Tester tester;
 struct timeval tp;
 int interval = 2000;
@@ -72,6 +74,7 @@ string getMacByNum(Sensor* sensorArray, int Num, int sensorCount){
 
 int getNum(int, int);
 int getDirection(int, int);
+map<int,int> serviceMap; //<NodeNum, serviceNum>
 
 int main(int argc, char *argv[]) {
   long int connectedTime;
@@ -87,6 +90,13 @@ int main(int argc, char *argv[]) {
   token = strtok(NULL, " ");
   const int myType = token[0] - '0';
   cout << "My Type: " << myType << endl;
+  fin.getline(line, sizeof(line), '\n');
+  fin.getline(line, sizeof(line), '\n');
+  fin.getline(line, sizeof(line), '\n');
+  token = strtok(line, " ");
+  token = strtoke(NULL, " ");
+  const int myService = token[0] - '0';
+  cout << "My Service: " << myService << endl;
 
   Sensor sensor[20];
   struct sockaddr_un addr;
@@ -210,122 +220,17 @@ int main(int argc, char *argv[]) {
             int direction = getDirection(targetNum, selfNum);
 
             if(direction == 0){
-                cout << "Reach Target Node!\n";
-                token = strtok(NULL, "@");
-                int returnTargetNum = atoi(token);
-                token = strtok(NULL, "@");
-                int packetCount = atoi(token);
-
-                if( targetNum != TesterTargetNum ){
-                    struct timeval tp;
-                    gettimeofday(&tp, NULL);
-                    long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-                    tester.recv(packetCount, ms);
-                    cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
-                }
-
-                 else{
-                  if(getDirection(returnTargetNum, selfNum) == -1){
-                    char sendBuffer[32];
-                    memset(&sendBuffer, 0, sizeof(sendBuffer));
-                    char countBuffer[8];
-                    char selfNumBuffer[8];
-                    char targetNumBuffer[8];
-                    sprintf(targetNumBuffer, "%d\0", returnTargetNum);
-                    sprintf(countBuffer, "%d\0", packetCount);
-                    sprintf(selfNumBuffer, "%d\0", selfNum);
-                    strcpy(sendBuffer, "t");
-                    strcat(sendBuffer, targetNumBuffer);
-                    strcat(sendBuffer, "@");
-                    strcat(sendBuffer, selfNumBuffer);
-                    strcat(sendBuffer, "@");
-                    strcat(sendBuffer, countBuffer);
-                    send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
-                  }
-                  else{
-                  string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
-                  char sendBuffer[32];
-                  memset(&sendBuffer, 0, sizeof(sendBuffer));
-                  char countBuffer[8];
-                  char selfNumBuffer[8];
-                  char targetNumBuffer[8];
-                  sprintf(targetNumBuffer, "%d\0", returnTargetNum);
-                  sprintf(countBuffer, "%d\0", packetCount);
-                  sprintf(selfNumBuffer, "%d\0", selfNum);
-                  strcpy(sendBuffer, "t");
-                  strcat(sendBuffer, linkMAC.c_str());
-                  strcat(sendBuffer, targetNumBuffer);
-                  strcat(sendBuffer, "@");
-                  strcat(sendBuffer, selfNumBuffer);
-                  strcat(sendBuffer, "@");
-                  strcat(sendBuffer, countBuffer);
-
-                  send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
-                  }
-                }
-                
-
-            }
-
-            else if(direction == -1){
-              cout << "Send Packet to Nodejs\n";
-              send(clientfd_node, buf, 32, MSG_DONTWAIT);
-            }
-            else{
-              cout << "Send Packet to gatttool\n";
-              string linkMAC = getMacByNum(sensor, getNum(selfNum, direction), sensorCount);
-              char sendBuffer[32];
-              strcpy(sendBuffer, "t");
-              strcat(sendBuffer, linkMAC.c_str());
-              strcat(sendBuffer, buf + 1);
-              send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
-            }
-            break;
-          }
-
-          case '0':
-            connectCount = buf[1] - '0';
-            break;
-        }
-      }
-
-      memset(&buf_node, 0, sizeof(buf_node));
-      if( (bytes_read_node = recv(clientfd_node, buf_node, sizeof(buf_node), MSG_DONTWAIT)) > 0 ){
-          int parentNum, biasNum;
-          switch(buf_node[0]){
-            case 'n':
-              token = strtok(buf_node + 1, "@");
-              parentNum = atoi(token);
-              token = strtok(NULL, " ");
-              biasNum = atoi(token);
-              selfNum = getNum(parentNum, biasNum);
-              cout << "Self Num: " << selfNum << endl;
-              char sendBuffer[32];
-              sendBuffer[0] = '0';
-              sprintf(sendBuffer+1,"%d", selfNum);
-              send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
-
-              gettimeofday(&tp, NULL);
-              connectedTime = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-
-              break;
-
-            case 't':{
-              cout << "Received 't': " << buf_node << endl;
-
-
-              char toToken[32];
-              strcpy(toToken, buf_node);
-              token = strtok(toToken + 1, "@");
-              int targetNum = atoi(token);
-              cout << "Target Num: " << targetNum << endl;
-              int direction = getDirection(targetNum, selfNum);
-
-              if(direction == 0){
-                cout << "Reach Target Node!\n";
-                token = strtok(NULL, "@");
-                int returnTargetNum = atoi(token);
-                token = strtok(NULL, "@");
+              cout << "Reach Target Node!\n";
+              token = strtok(NULL, "@");
+              int returnTargetNum = atoi(token);
+              token = strtok(NULL, "@");
+              if(token[0] == 'r'){
+                cout << "Application Layer: Register" << endl;
+                int packetServiceNum = token[1] - '0';
+                cout << "(Node Number, Service Number) = (" << returnTargetNum << ", " << packetServiceNum << ")" << endl;
+                serviceMap[returnTargetNum] = packetServiceNum;
+              }
+              else{
                 int packetCount = atoi(token);
 
                 if( targetNum != TesterTargetNum ){
@@ -373,6 +278,148 @@ int main(int argc, char *argv[]) {
                     strcat(sendBuffer, countBuffer);
 
                     send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+                  }
+                }
+              }
+            }
+
+            else if(direction == -1){
+              cout << "Send Packet to Nodejs\n";
+              send(clientfd_node, buf, 32, MSG_DONTWAIT);
+            }
+            else{
+              cout << "Send Packet to gatttool\n";
+              string linkMAC = getMacByNum(sensor, getNum(selfNum, direction), sensorCount);
+              char sendBuffer[32];
+              strcpy(sendBuffer, "t");
+              strcat(sendBuffer, linkMAC.c_str());
+              strcat(sendBuffer, buf + 1);
+              send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+            }
+            break;
+          }
+
+          case '0':
+            connectCount = buf[1] - '0';
+            break;
+        }
+      }
+
+      memset(&buf_node, 0, sizeof(buf_node));
+      if( (bytes_read_node = recv(clientfd_node, buf_node, sizeof(buf_node), MSG_DONTWAIT)) > 0 ){
+          int parentNum, biasNum;
+          switch(buf_node[0]){
+            case 'n': //packet: n [parentNum] @ biasNum
+              token = strtok(buf_node + 1, "@");
+              parentNum = atoi(token);
+              token = strtok(NULL, " ");
+              biasNum = atoi(token);
+              selfNum = getNum(parentNum, biasNum); //calculate selfNum by parentNum and biasNum
+              cout << "Self Num: " << selfNum << endl;
+              char sendBuffer[32];
+              sendBuffer[0] = '0';
+              sprintf(sendBuffer+1,"%d", selfNum);
+              //send to gatttool: 0 [selfNum]
+              //to let gatttool know selfNum
+              send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+              
+              //register to root and ask for service list
+              memset(&sendBuffer, 0, sizeof(sendBuffer));
+              //packet: t2@ [selfNum] @ r [myService]             
+              char selfNumBuffer[8];
+              char targetNumBuffer[8];
+              char serviceNumBuffer[8];
+              memset(&countBuffer, 0, sizeof(countBuffer));
+              memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
+              memset(&serviceNumBuffer, 0, sizeof(serviceNumBuffer));
+              sprintf(selfNumBuffer, "%d\0", selfNum);
+              sprintf(targetNumBuffer, "%d\0", TesterTargetNum);
+              sprintf(serviceNumBuffer, "%d\0", myService);
+              strcpy(sendBuffer, "t");
+              strcat(sendBuffer, targetNumBuffer);
+              strcat(sendBuffer, "@");
+              strcat(sendBuffer, selfNumBuffer);
+              strcat(sendBuffer, "@");
+              strcat(sendBuffer, 'r');
+              strcat(sendBuffer, serviceNumBuffer);
+
+              cout << "Sending Out " << sendBuffer << endl;
+              send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+
+              //update connectedTime
+              gettimeofday(&tp, NULL);
+              connectedTime = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+
+              break;
+
+            case 't':{
+              cout << "Received 't': " << buf_node << endl;
+
+
+              char toToken[32];
+              strcpy(toToken, buf_node);
+              token = strtok(toToken + 1, "@");
+              int targetNum = atoi(token);
+              cout << "Target Num: " << targetNum << endl;
+              int direction = getDirection(targetNum, selfNum);
+
+              if(direction == 0){
+                cout << "Reach Target Node!\n";
+                token = strtok(NULL, "@");
+                int returnTargetNum = atoi(token);
+                token = strtok(NULL, "@");
+                if(token[0] == 'r'){
+                  cout << "Application Layer: Register" << endl; 
+                }
+                else{
+                  int packetCount = atoi(token);
+
+                  if( targetNum != TesterTargetNum ){
+                      struct timeval tp;
+                      gettimeofday(&tp, NULL);
+                      long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                      tester.recv(packetCount, ms);
+                      cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
+                  }
+
+                  else{
+                    if(getDirection(returnTargetNum, selfNum) == -1){
+                      char sendBuffer[32];
+                      memset(&sendBuffer, 0, sizeof(sendBuffer));
+                      char countBuffer[8];
+                      char selfNumBuffer[8];
+                      char targetNumBuffer[8];
+                      sprintf(targetNumBuffer, "%d\0", returnTargetNum);
+                      sprintf(countBuffer, "%d\0", packetCount);
+                      sprintf(selfNumBuffer, "%d\0", selfNum);
+                      strcpy(sendBuffer, "t");
+                      strcat(sendBuffer, targetNumBuffer);
+                      strcat(sendBuffer, "@");
+                      strcat(sendBuffer, selfNumBuffer);
+                      strcat(sendBuffer, "@");
+                      strcat(sendBuffer, countBuffer);
+                      send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+                    }
+                    else{
+                      string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(returnTargetNum, selfNum)), sensorCount);
+                      char sendBuffer[32];
+                      memset(&sendBuffer, 0, sizeof(sendBuffer));
+                      char countBuffer[8];
+                      char selfNumBuffer[8];
+                      char targetNumBuffer[8];
+                      sprintf(targetNumBuffer, "%d\0", returnTargetNum);
+                      sprintf(countBuffer, "%d\0", packetCount);
+                      sprintf(selfNumBuffer, "%d\0", selfNum);
+                      strcpy(sendBuffer, "t");
+                      strcat(sendBuffer, linkMAC.c_str());
+                      strcat(sendBuffer, targetNumBuffer);
+                      strcat(sendBuffer, "@");
+                      strcat(sendBuffer, selfNumBuffer);
+                      strcat(sendBuffer, "@");
+                      strcat(sendBuffer, countBuffer);
+
+                      send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
+                    }
                   }
                 }
                 
