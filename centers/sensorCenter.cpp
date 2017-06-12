@@ -323,17 +323,17 @@ int main(int argc, char *argv[]) {
               //to let gatttool know selfNum
               send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
               
-              //register to root and ask for service list
+              //register to sub-root (number 2)
               memset(&sendBuffer, 0, sizeof(sendBuffer));
               //packet: t2@ [selfNum] @ r [myService]             
               char selfNumBuffer[8];
               char targetNumBuffer[8];
               char serviceNumBuffer[8];
-              memset(&countBuffer, 0, sizeof(countBuffer));
+              memset(&targetNumBuffer, 0, sizeof(targetNumBuffer));
               memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
               memset(&serviceNumBuffer, 0, sizeof(serviceNumBuffer));
               sprintf(selfNumBuffer, "%d\0", selfNum);
-              sprintf(targetNumBuffer, "%d\0", TesterTargetNum);
+              sprintf(targetNumBuffer, "%d\0", 2);
               sprintf(serviceNumBuffer, "%d\0", myService);
               strcpy(sendBuffer, "t");
               strcat(sendBuffer, targetNumBuffer);
