@@ -9,10 +9,12 @@
 #include <fstream>
 #include <math.h>
 #include <map>
+#include <queue>
 
 #define MaxSensorNum 7
 
 #define TesterTargetNum 9
+#define ListInterval 50
 
 using namespace std;
 //char *socket_path = "./socket";
@@ -75,9 +77,12 @@ string getMacByNum(Sensor* sensorArray, int Num, int sensorCount){
 int getNum(int, int);
 int getDirection(int, int);
 map<int,int> serviceMap; //<NodeNum, serviceNum>
+queue<int> queueOfNodeForList; //queue of Node that is asking service list. <NodeNum>
+map<int,int>::iterator serviceMapIt;
 
 int main(int argc, char *argv[]) {
   long int connectedTime;
+  long int listSendTime = 0;
   int selfNum = -1;
 
   fstream fin;
@@ -229,6 +234,11 @@ int main(int argc, char *argv[]) {
                 int packetServiceNum = token[1] - '0';
                 cout << "(Node Number, Service Number) = (" << returnTargetNum << ", " << packetServiceNum << ")" << endl;
                 serviceMap[returnTargetNum] = packetServiceNum;
+                serviceMapIt = serviceMap.begin();
+              }
+              else if(token[0] == 'l'){
+                cout << "Node " << returnTargetNum << " is asking for Service List" << endl;
+                queueOfNodeForList.push(returnTargetNum);
               }
               else{
                 int packetCount = atoi(token);
@@ -457,6 +467,7 @@ int main(int argc, char *argv[]) {
           memset(&sendBuffer, 0, sizeof(sendBuffer));
           memset(&countBuffer, 0, sizeof(countBuffer));
           memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
+          memset(&targetNumBuffer, 0, sizeof(targetNumBuffer));
           sprintf(countBuffer, "%d\0", tester.getSendCount());
           sprintf(selfNumBuffer, "%d\0", selfNum);
           sprintf(targetNumBuffer, "%d\0", TesterTargetNum);
@@ -476,6 +487,58 @@ int main(int argc, char *argv[]) {
 
           connectedTime = ms;
           interval = 500;
+        }
+      }
+
+      if (!queueOfNodeForList.empty())
+      {
+        //Send List: t [selfNum] @ [targetNum] @ s @ [nodeNum] @ [serviceNum]
+        gettimeofday(&tp, NULL);
+        long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+
+        if (ms - listSendTime >= ListInterval){
+          string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(queueOfNodeForList.front(), selfNum)), sensorCount);
+          char sendBuffer[32];
+          char selfNumBuffer[8];
+          char targetNumBuffer[8];
+          char nodeNumBuffer[8];
+          char serviceNumBuffer[8];
+          memset(&sendBuffer, 0, sizeof(sendBuffer));
+          memset(&targetNumBuffer, 0, sizeof(targetNumBuffer));
+          memset(&selfNumBuffer, 0, sizeof(selfNumBuffer));
+          memset(&nodeNumBuffer, 0, sizeof(nodeNumBuffer));
+          memset(&serviceNumBuffer, 0, sizeof(serviceNumBuffer));
+          sprintf(selfNumBuffer, "%d\0", selfNum);
+          sprintf(targetNumBuffer, "%d\0", queueOfNodeForList.front());
+          sprintf(nodeNumBuffer, "%d\0", serviceMapIt->first);
+          sprintf(serviceNumBuffer, "%d\0", serviceMapIt->second);
+          strcpy(sendBuffer, "t");
+          strcat(sendBuffer, linkMAC.c_str());
+          strcat(sendBuffer, targetNumBuffer);
+          strcat(sendBuffer, "@");
+          strcat(sendBuffer, selfNumBuffer);
+          strcat(sendBuffer, "@s@");
+          strcat(sendBuffer, nodeNumBuffer);
+          strcat(sendBuffer, "@");
+          strcat(sendBuffer, serviceNumBuffer);
+
+          cout << "Sending Out " << sendBuffer << endl;
+          
+          gettimeofday(&tp, NULL);
+          ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+
+          listSendTime = ms;
+
+          ++serviceMapIt;
+          //Check whether finish sending the whole list
+          if(serviceMapIt == serviceMap.end()){
+            cout << "Finish sending list to Node " << queueOfNodeForList.front() << endl;
+            serviceMapIt = serviceMap.begin();
+            //pop the Node which is asking list from the queue
+            queueOfNodeForList.pop();
+          }
+
         }
       }
 
