@@ -526,7 +526,7 @@ int main(int argc, char *argv[]) {
           
           gettimeofday(&tp, NULL);
           ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-          send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
+          send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
 
           listSendTime = ms;
 
