@@ -229,14 +229,14 @@ int main(int argc, char *argv[]) {
               token = strtok(NULL, "@");
               int returnTargetNum = atoi(token);
               token = strtok(NULL, "@");
-              if(token[0] == 'r'){
+              if(token[0] == 'r'){ //packet for registering: t 2 @ [nodeNum] @ r [serviceNum]
                 cout << "Application Layer: Register" << endl;
                 int packetServiceNum = token[1] - '0';
                 cout << "(Node Number, Service Number) = (" << returnTargetNum << ", " << packetServiceNum << ")" << endl;
                 serviceMap[returnTargetNum] = packetServiceNum;
                 serviceMapIt = serviceMap.begin();
               }
-              else if(token[0] == 'l'){
+              else if(token[0] == 'l'){ //packet for asking list: t 2 @ [nodeNum] @ l
                 cout << "Node " << returnTargetNum << " is asking for Service List" << endl;
                 queueOfNodeForList.push(returnTargetNum);
               }
