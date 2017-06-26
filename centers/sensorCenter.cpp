@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
   cout << "My Type: " << myType << endl;
   fin.getline(line, sizeof(line), '\n');
   fin.getline(line, sizeof(line), '\n');
-  fin.getline(line, sizeof(line), '\n');
+  fin.getline(line, sizeof(line), "\0\n");
   token = strtok(line, " ");
   token = strtok(NULL, " ");
   const int myService = token[0] - '0';
