@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
   int selfNum = -1;
 
   fstream fin;
-  char line[16];
+  char line[32];
   char* token;
 	fin.open("/home/pi/Documents/info.txt",ios::in);
 	
