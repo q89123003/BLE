@@ -353,6 +353,7 @@ int main(int argc, char *argv[]) {
               strcat(sendBuffer, "r");
               strcat(sendBuffer, serviceNumBuffer);
 
+              usleep(50000);
               cout << "Sending Out " << sendBuffer << endl;
               send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
 
