@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
   fin.getline(line, sizeof(line), '\n');
   fin.getline(line, sizeof(line), '\n');
   token = strtok(line, " ");
-  token = strtoke(NULL, " ");
+  token = strtok(NULL, " ");
   const int myService = token[0] - '0';
   cout << "My Service: " << myService << endl;
 
@@ -350,7 +350,7 @@ int main(int argc, char *argv[]) {
               strcat(sendBuffer, "@");
               strcat(sendBuffer, selfNumBuffer);
               strcat(sendBuffer, "@");
-              strcat(sendBuffer, 'r');
+              strcat(sendBuffer, "r");
               strcat(sendBuffer, serviceNumBuffer);
 
               cout << "Sending Out " << sendBuffer << endl;
