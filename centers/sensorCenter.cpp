@@ -239,6 +239,8 @@ int main(int argc, char *argv[]) {
               else if(token[0] == 'l'){ //packet for asking list: t 2 @ [nodeNum] @ l
                 cout << "Node " << returnTargetNum << " is asking for Service List" << endl;
                 queueOfNodeForList.push(returnTargetNum);
+                long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                listSendTime = ms;
               }
               else{
                 int packetCount = atoi(token);
