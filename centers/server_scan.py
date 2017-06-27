@@ -75,7 +75,7 @@ while True:
             if address not in s:
                 if(address[0] != '9'):
                     s.add(address)
-                if(address[0] != '7'):
+                if(address[0] != '9'):
                     print(address.lower())
                     connection.send(address.lower())
                     time.sleep(1)
