@@ -835,7 +835,7 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 			sendBuffer[0] = 'p';
 			sendBuffer[1] = 0;
 			gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
-		
+		}
 		else{
 			connectCount++; //Maintain the connectCount
 			sendBuffer[0] = '0';
@@ -856,9 +856,7 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 			sendBuffer[1] = 0;
 			gatt_write_char(map[MapIndex].attrib, 0x002d, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
 		}
-		}
-		
-
+	
 	}
 	if(MapIndex == MapSize)
 		MapSize++;
