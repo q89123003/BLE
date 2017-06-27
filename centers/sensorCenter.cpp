@@ -491,8 +491,9 @@ int main(int argc, char *argv[]) {
         }
       }
 
-      if (!queueOfNodeForList.empty())
+      if (queueOfNodeForList.empty() != true)
       {
+        cout << "Queue of NodeForList is not empty!" << endl;
         //Send List: t [selfNum] @ [targetNum] @ s @ [nodeNum] @ [serviceNum]
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
