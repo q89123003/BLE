@@ -830,12 +830,34 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 			sprintf(c, "%d", connectCount);
 			strcat(sendBuffer, c);
 			//Tell the child "n selfNum @ connectCounnt"
-			gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);	 
+			gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
+			gatt_write_char(map[MapIndex].attrib, 0x000d, value, len, char_write_req_cb, NULL);
+			sendBuffer[0] = 'p';
+			sendBuffer[1] = 0;
+			gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
+		
+		else{
+			connectCount++; //Maintain the connectCount
+			sendBuffer[0] = '0';
+			sprintf(sendBuffer+1, "%d", connectCount);
+			//Send to Sensor Center "0 connectCount" to maintain the connectCount in Sensor Center
+			send(sockfd_sensor, sendBuffer, sizeof(sendBuffer), MSG_DONTWAIT);
+
+			sendBuffer[0] = 'n';
+			sprintf(sendBuffer+1,"%d", selfNum);
+			strcat(sendBuffer, "@");
+			char c[2];
+			sprintf(c, "%d", connectCount);
+			strcat(sendBuffer, c);
+			//Tell the child "n selfNum @ connectCounnt"
+			gatt_write_char(map[MapIndex].attrib, 0x002d, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
+			gatt_write_char(map[MapIndex].attrib, 0x002c, value, len, char_write_req_cb, NULL);
+			sendBuffer[0] = 'p';
+			sendBuffer[1] = 0;
+			gatt_write_char(map[MapIndex].attrib, 0x002d, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
 		}
-		gatt_write_char(map[MapIndex].attrib, 0x000d, value, len, char_write_req_cb, NULL);
-		sendBuffer[0] = 'p';
-		sendBuffer[1] = 0;
-		gatt_write_char(map[MapIndex].attrib, 0x000c, sendBuffer, strlen(sendBuffer), char_write_req_cb, NULL);
+		}
+		
 
 	}
 	if(MapIndex == MapSize)
@@ -959,7 +981,10 @@ static gboolean checkCenters(gpointer arg)
         				strcpy(packet, "t");
         				strcat(packet, payload);
 						//Send t payload to child
-        				gatt_write_char(targetAtt, 0x000c, packet, strlen(packet), char_write_req_cb, NULL);
+						if(map[i].MAC[0] == 'b' || map[i].MAC[0] == '0' || map[i].MAC[0] == '5')
+        					gatt_write_char(targetAtt, 0x000c, packet, strlen(packet), char_write_req_cb, NULL);
+						else
+							gatt_write_char(targetAtt, 0x002d, packet, strlen(packet), char_write_req_cb, NULL);
         				break;
         			}
         		}
