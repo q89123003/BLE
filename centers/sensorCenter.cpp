@@ -493,12 +493,12 @@ int main(int argc, char *argv[]) {
 
       if (queueOfNodeForList.empty() != true)
       {
-        cout << "Queue of NodeForList is not empty!" << endl;
         //Send List: t [selfNum] @ [targetNum] @ s @ [nodeNum] @ [serviceNum]
         gettimeofday(&tp, NULL);
         long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 
         if (ms - listSendTime >= ListInterval){
+           cout << "Queue of NodeForList is not empty! Going to Send..." << endl;
           string linkMAC = getMacByNum(sensor, getNum(selfNum, getDirection(queueOfNodeForList.front(), selfNum)), sensorCount);
           char sendBuffer[32];
           char selfNumBuffer[8];
