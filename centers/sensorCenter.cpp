@@ -11,6 +11,7 @@
 #include <map>
 #include <queue>
 #include <wiringPi.h>
+#include <stdint.h>
 
 #define MAX_TIMINGS	85
 #define DHT_PIN		3	/* GPIO-22 */
