@@ -274,7 +274,7 @@ int main(int argc, char *argv[]) {
                   strcat(sendBuffer, targetNumBuffer);
                   strcat(sendBuffer, "@");
                   strcat(sendBuffer, selfNumBuffer);
-                  strcat(sendBuffer, "@A@")
+                  strcat(sendBuffer, "@A@");
                   strcat(sendBuffer, dataNumBuffer);
                   strcat(sendBuffer, "@\0");
                   send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
@@ -441,7 +441,7 @@ int main(int argc, char *argv[]) {
                   strcat(sendBuffer, targetNumBuffer);
                   strcat(sendBuffer, "@");
                   strcat(sendBuffer, selfNumBuffer);
-                  strcat(sendBuffer, "@A@")
+                  strcat(sendBuffer, "@A@");
                   strcat(sendBuffer, dataNumBuffer);
                   strcat(sendBuffer, "@\0");
                   send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
