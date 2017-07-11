@@ -73,12 +73,13 @@ while True:
                 neighborPowerMax = tmpPower
         if x > 4 and power > neighborPowerMax and ( tmpType == type or x - CON_SIG_TIMER > 5 ):
             if address not in s:
-                if(address[0] != '9'):
-                    s.add(address)
-                if(address[0] != '9'):
-                    print(address.lower())
-                    connection.send(address.lower())
-                    time.sleep(1)
+                if(address[0] != '0' or address[0] != 'b'):
+                    if(type != 1):
+                        continue
+                s.add(address)
+                print(address.lower())
+                connection.send(address.lower())
+                time.sleep(1)
         time.sleep(1)
     print(x)
     x +=1
