@@ -15,6 +15,7 @@
 
 #define MAX_TIMINGS	85
 #define DHT_PIN		3	/* GPIO-22 */
+#define LED_PIN     0
 
 #define MaxSensorNum 7
 
@@ -87,6 +88,7 @@ map<int,int>::iterator serviceMapIt;
 
 int data[5] = { 0, 0, 0, 0, 0 };
 void read_dht_data();
+void changeLed();
 int humidity, celsius;
 int ledState = 0;
 
@@ -267,6 +269,7 @@ int main(int argc, char *argv[]) {
                     sprintf(dataNumBuffer, "%d\0", humidity);
                   }
                   else if(myService == 3){
+                    changeLed();
                     sprintf(dataNumBuffer, "%d\0", ledState);
                   }
                   strcpy(sendBuffer, "t");
@@ -435,6 +438,7 @@ int main(int argc, char *argv[]) {
                     sprintf(dataNumBuffer, "%d\0", humidity);
                   }
                   else if(myService == 3){
+                    changeLed();
                     sprintf(dataNumBuffer, "%d\0", ledState);
                   }
                   strcpy(sendBuffer, "t");
@@ -712,4 +716,17 @@ void read_dht_data()
 	}else  {
 		printf( "Data not good, skip\n" );
 	}
+}
+
+void changeLed(){
+    pinMode(LED_PIN, OUTPUT);
+
+    if(ledState == 0){
+        ledState = 1;
+        digitalWrite(LED_PIN, ledState);
+    }
+    else if(ledState == 1){
+        ledState = 0;
+        digitalWrite(LED_PIN, ledState);
+    }
 }
