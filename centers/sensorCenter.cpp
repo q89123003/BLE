@@ -133,6 +133,11 @@ int main(int argc, char *argv[]) {
     exit(-1);
   }
 
+  if ( wiringPiSetup() == -1 ){
+    perror("wiringPi setup error");
+    exit( 1 );
+  }
+
   memset(&addr, 0, sizeof(addr));
   addr.sun_family = AF_UNIX;
   strcpy(addr.sun_path, "/tmp/sensor.socket");
