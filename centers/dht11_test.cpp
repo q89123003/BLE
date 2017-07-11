@@ -10,6 +10,7 @@
 
 #define MAX_TIMINGS	85
 #define DHT_PIN		3	/* GPIO-22 */
+#define LED_PIN     0
 
 int data[5] = { 0, 0, 0, 0, 0 };
 
@@ -86,6 +87,20 @@ void read_dht_data()
 	}
 }
 
+int ledState = 0;
+void changeLed(){
+    pinMode(LED_PIN, OUTPUT);
+
+    if(ledState == 0){
+        ledState = 1;
+        digitalWrite(LED_PIN, ledState);
+    }
+    else if(ledState == 1){
+        ledState = 0;
+        digitalWrite(LED_PIN, ledState);
+    }
+}
+
 int main( void )
 {
 	printf( "Raspberry Pi DHT11/DHT22 temperature/humidity test\n" );
@@ -96,6 +111,7 @@ int main( void )
 	while ( 1 )
 	{
 		read_dht_data();
+        changeLed();
 		delay( 2000 ); /* wait 2 seconds before next read */
 	}
 
