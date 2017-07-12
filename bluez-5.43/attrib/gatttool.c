@@ -816,7 +816,7 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 		//strcat(sendBuffer, "Enter Password")
 		g_attrib_register(map[MapIndex].attrib, ATT_OP_HANDLE_NOTIFY, GATTRIB_ALL_HANDLES,
 						myEvents_handler, str, NULL);
-		if(map[MapIndex].MAC[0] == 'b' || map[MapIndex].MAC[0] == '0' || map[MapIndex].MAC[0] == '5'){
+		if(map[MapIndex].MAC[0] == 'b' || map[MapIndex].MAC[0] == '0'){
 			connectCount++; //Maintain the connectCount
 			sendBuffer[0] = '0';
 			sprintf(sendBuffer+1, "%d", connectCount);
@@ -883,7 +883,7 @@ static gboolean checkScan(gpointer arg)
         	GIOChannel *chan;
         	g_print("Bytes received: %zd\n", bytes_read);
         	g_print("%s\n", buffer);
-	        	if(buffer[0] == '9' || buffer[0] == 'b' || buffer[0] == '5' || buffer[0] == '0')
+	        	if(buffer[0] == 'b' || buffer[0] == '0')
 	        	{
 					//Connect to MAC
 					g_print("connect to public device\n");
@@ -979,7 +979,7 @@ static gboolean checkCenters(gpointer arg)
         				strcpy(packet, "t");
         				strcat(packet, payload);
 						//Send t payload to child
-						if(map[i].MAC[0] == 'b' || map[i].MAC[0] == '0' || map[i].MAC[0] == '5')
+						if(map[i].MAC[0] == 'b' || map[i].MAC[0] == '0')
         					gatt_write_char(targetAtt, 0x000c, packet, strlen(packet), char_write_req_cb, NULL);
 						else
 							gatt_write_char(targetAtt, 0x002d, packet, strlen(packet), char_write_req_cb, NULL);
