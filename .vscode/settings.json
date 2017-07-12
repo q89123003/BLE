@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "l2ping.c": "cpp",
+        "l2test.c": "cpp",
+        "rctest.c": "cpp",
+        "ezusb.c": "cpp",
+        "poll_windows.c": "cpp"
     }
 }

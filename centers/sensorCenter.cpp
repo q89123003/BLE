@@ -21,6 +21,7 @@
 
 #define TesterTargetNum 9
 #define ListInterval 50
+#define TEST_INTERVAL 100
 
 using namespace std;
 //char *socket_path = "./socket";
@@ -37,7 +38,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 50;
+    const static int TESTTIME = 500;
   public:
     int sendCount;
     int recvCount;
@@ -560,7 +561,7 @@ int main(int argc, char *argv[]) {
           send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
 
           connectedTime = ms;
-          interval = 500;
+          interval = TEST_INTERVAL;
         }
       }
 
