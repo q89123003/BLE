@@ -79,7 +79,7 @@ while True:
                 s.add(address)
                 print(address.lower())
                 connection.send(address.lower())
-                time.sleep(1)
+                time.sleep(2)
         time.sleep(1)
     print(x)
     x +=1
