@@ -74,8 +74,10 @@ while True:
         if x > 4 and power > neighborPowerMax and ( tmpType == type or x - CON_SIG_TIMER > 5 ):
             if address not in s:
                 if(address[0] != '0' or address[0] != 'B'):
+                    print "User Device"
                     if(type != 1):
                         continue
+                print "Sensor Device"
                 s.add(address)
                 print(address.lower())
                 connection.send(address.lower())
