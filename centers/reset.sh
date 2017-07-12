@@ -1,0 +1,1 @@
+sudo BLENO_HCI_DEVICE_ID=0 node /home/pi/Documents/BLE/bleno/examples/echo/main.js
