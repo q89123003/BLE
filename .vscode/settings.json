@@ -7,6 +7,12 @@
         "l2test.c": "cpp",
         "rctest.c": "cpp",
         "ezusb.c": "cpp",
-        "poll_windows.c": "cpp"
+        "poll_windows.c": "cpp",
+        "avdtp.h": "c",
+        "hal-msg.h": "c",
+        "att.h": "c",
+        "transport.h": "c",
+        "uhid_copy.h": "c",
+        "bluetoothhcisocket.cpp": "c"
     }
 }

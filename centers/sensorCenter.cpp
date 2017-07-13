@@ -19,7 +19,7 @@
 
 #define MaxSensorNum 7
 
-#define TesterTargetNum 9
+#define TesterTargetNum 2
 #define ListInterval 50
 #define TEST_INTERVAL 100
 
