@@ -634,8 +634,8 @@ int main(int argc, char *argv[]) {
         }
       }
 
-    if(getchar())
-      tester.reset();
+    //if(getchar())
+    //  tester.reset();
   }
 
   return 0;
