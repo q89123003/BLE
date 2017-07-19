@@ -39,7 +39,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 500;
+    const static int TESTTIME = 100;
   public:
     int sendCount;
     int recvCount;
