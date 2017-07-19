@@ -12,6 +12,7 @@
 #include <queue>
 #include <wiringPi.h>
 #include <stdint.h>
+#include <ctime>
 
 #define MAX_TIMINGS	85
 #define DHT_PIN		3	/* GPIO-22 */
@@ -169,6 +170,8 @@ int main(int argc, char *argv[]) {
     
     //scanfd = accept(sockfd_scan, NULL, NULL);
 
+  clock_t start;
+  start = clock();
 
   while(true){
       memset(&buf, 0, sizeof(buf));
@@ -257,7 +260,9 @@ int main(int argc, char *argv[]) {
               else if(token[0] == 'l'){ //packet for asking list: t 2 @ [nodeNum] @ l
                 cout << "Node " << returnTargetNum << " is asking for Service List" << endl;
                 queueOfNodeForList.push(returnTargetNum);
-                long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                //gettimeofday(&tp, NULL);
+                //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
                 listSendTime = ms;
               }
 
@@ -294,8 +299,9 @@ int main(int argc, char *argv[]) {
 
                 if( targetNum != TesterTargetNum ){
                     struct timeval tp;
-                    gettimeofday(&tp, NULL);
-                    long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                    //gettimeofday(&tp, NULL);
+                    //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                    long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
                     tester.recv(packetCount, ms);
                     cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
                 }
@@ -407,9 +413,9 @@ int main(int argc, char *argv[]) {
               send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
 
               //update connectedTime
-              gettimeofday(&tp, NULL);
-              connectedTime = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-
+              //gettimeofday(&tp, NULL);
+              //connectedTime = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+              connectedTime = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
               break;
 
             case 't':{
@@ -460,9 +466,10 @@ int main(int argc, char *argv[]) {
                   int packetCount = atoi(token);
 
                   if( targetNum != TesterTargetNum ){
-                      struct timeval tp;
-                      gettimeofday(&tp, NULL);
-                      long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                      //struct timeval tp;
+                      //gettimeofday(&tp, NULL);
+                      //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+                      long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
                       tester.recv(packetCount, ms);
                       cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
                   }
@@ -531,8 +538,9 @@ int main(int argc, char *argv[]) {
 
       if(myType == 0 && tester.isDone() != 1 && selfNum != TesterTargetNum && selfNum != -1)
       {
-        gettimeofday(&tp, NULL);
-        long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        //gettimeofday(&tp, NULL);
+        //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
 
         if (ms - connectedTime >= interval){
           char sendBuffer[32];
@@ -555,8 +563,9 @@ int main(int argc, char *argv[]) {
 
           cout << "Sending Out " << sendBuffer << endl;
           
-          gettimeofday(&tp, NULL);
-          ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          //gettimeofday(&tp, NULL);
+          //ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
           tester.send(ms);
           send(clientfd_node, sendBuffer, 32, MSG_DONTWAIT);
 
@@ -568,8 +577,9 @@ int main(int argc, char *argv[]) {
       if (queueOfNodeForList.empty() != true)
       {
         //Send List: t [selfNum] @ [targetNum] @ s @ [nodeNum] @ [serviceNum]
-        gettimeofday(&tp, NULL);
-        long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        //gettimeofday(&tp, NULL);
+        //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
 
         if (ms - listSendTime >= ListInterval){
            cout << "Queue of NodeForList is not empty! Going to Send..." << endl;
@@ -600,8 +610,9 @@ int main(int argc, char *argv[]) {
 
           cout << "Sending Out " << sendBuffer << endl;
           
-          gettimeofday(&tp, NULL);
-          ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          //gettimeofday(&tp, NULL);
+          //ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+          long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
           send(clientfd, sendBuffer, 32, MSG_DONTWAIT);
 
           listSendTime = ms;

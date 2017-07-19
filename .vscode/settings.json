@@ -13,6 +13,10 @@
         "att.h": "c",
         "transport.h": "c",
         "uhid_copy.h": "c",
-        "bluetoothhcisocket.cpp": "c"
+        "bluetoothhcisocket.cpp": "c",
+        "deque": "cpp",
+        "queue": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp"
     }
 }
