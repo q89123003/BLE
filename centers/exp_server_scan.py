@@ -81,7 +81,7 @@ while True:
                 if tmpType != 0:
                     s.add(address)
                 print(address.lower())
-                time.sleep(2)
+                #time.sleep(2)
                 connection.send(address.lower())
                 time.sleep(2)
         time.sleep(1)
