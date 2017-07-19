@@ -22,7 +22,7 @@
 
 #define TesterTargetNum 2
 #define ListInterval 50
-#define TEST_INTERVAL 100
+#define TEST_INTERVAL 200
 
 using namespace std;
 //char *socket_path = "./socket";
@@ -39,7 +39,7 @@ public:
 
 class Tester{
   private:
-    const static int TESTTIME = 100;
+    const static int TESTTIME = 50;
   public:
     int sendCount;
     int recvCount;
