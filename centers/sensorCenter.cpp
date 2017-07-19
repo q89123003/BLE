@@ -50,7 +50,7 @@ class Tester{
     bool isDone(){return sendCount == TESTTIME;};
     int getSendCount() { return sendCount;};
     void send(long int time){sendTime[sendCount] = time; sendCount++;};
-    void recv(int count, int time){
+    void recv(int count, long int time){
       recvTime[count] = time;
       recvCount++;
       if(count == TESTTIME - 1){
@@ -58,6 +58,11 @@ class Tester{
         cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << "% (" << recvCount << '/' << TESTTIME << ")" << endl;
         cout << "Average RTT = " << totalRTT / recvCount << endl; 
       }
+    };
+    void reset(){
+      sendCount = 0;
+      recvCount = 0;
+      totalRTT = 0;
     };
     long int RTT(int count){ totalRTT += recvTime[count] - sendTime[count]; return recvTime[count] - sendTime[count];};
 };
@@ -629,6 +634,8 @@ int main(int argc, char *argv[]) {
         }
       }
 
+    if(getchar())
+      tester.reset();
   }
 
   return 0;

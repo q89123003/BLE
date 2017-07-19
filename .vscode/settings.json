@@ -17,6 +17,7 @@
         "deque": "cpp",
         "queue": "cpp",
         "vector": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "xlocale": "cpp"
     }
 }
