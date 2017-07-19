@@ -78,7 +78,8 @@ while True:
                     if(type != 1):
                         continue
                 print "Sensor Device"
-                s.add(address)
+                if tmpType != 0:
+                    s.add(address)
                 print(address.lower())
                 connection.send(address.lower())
                 time.sleep(2)
