@@ -38,9 +38,8 @@ public:
 };
 
 class Tester{
-  private:
-    const static int TESTTIME = 50;
   public:
+    const static int TESTTIME = 50;
     int sendCount;
     int recvCount;
     long int totalRTT;
