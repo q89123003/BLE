@@ -71,7 +71,7 @@ while True:
             print "Received broadcast from neighbor: ", tmpType, tmpPower
             if tmpType == type and tmpPower > neighborPowerMax:
                 neighborPowerMax = tmpPower
-        if x > 4 and power > neighborPowerMax and ( tmpType == type or x - CON_SIG_TIMER > 3 ) and tmpType == type - 1:
+        if x > 4 and power > neighborPowerMax and ( tmpType == type or x - CON_SIG_TIMER > 1 ) and tmpType == type - 1:
             if address not in s:
                 if(address[0] != '0' and address[0] != 'B'):
                     print "User Device"
