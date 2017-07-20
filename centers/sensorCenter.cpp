@@ -58,13 +58,20 @@ class Tester{
         cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << "% (" << recvCount << '/' << TESTTIME << ")" << endl;
         cout << "Average RTT = " << totalRTT / recvCount << endl; 
       }
+      else{
+        cout << "Deliver Rate = " << 100 * recvCount / TESTTIME << "% (" << recvCount << '/' << TESTTIME << ")" << endl;
+        cout << "Average RTT = " << totalRTT / recvCount << endl; 
+      }
     };
     void reset(){
       sendCount = 0;
       recvCount = 0;
       totalRTT = 0;
     };
-    long int RTT(int count){ totalRTT += recvTime[count] - sendTime[count]; return recvTime[count] - sendTime[count];};
+    long int RTT(int count){
+      totalRTT += recvTime[count] - sendTime[count];
+      return recvTime[count] - sendTime[count];
+    };
 };
 
 
@@ -303,12 +310,14 @@ int main(int argc, char *argv[]) {
                 int packetCount = atoi(token);
 
                 if( targetNum != TesterTargetNum ){
+                  if(packetCount >= 0 && packetCount < tester.TESTTIME){
                     struct timeval tp;
                     //gettimeofday(&tp, NULL);
                     //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
                     long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
                     tester.recv(packetCount, ms);
                     cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
+                  }
                 }
 
                 else{
@@ -471,12 +480,14 @@ int main(int argc, char *argv[]) {
                   int packetCount = atoi(token);
 
                   if( targetNum != TesterTargetNum ){
+                    if(packetCount >= 0 && packetCount < tester.TESTTIME){
                       //struct timeval tp;
                       //gettimeofday(&tp, NULL);
                       //long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
                       long int ms = (long int) (clock() - start) / (double) CLOCKS_PER_SEC * 1000;
                       tester.recv(packetCount, ms);
                       cout << "RTT: " << tester.RTT(packetCount) << " ms\n";
+                    }
                   }
 
                   else{
