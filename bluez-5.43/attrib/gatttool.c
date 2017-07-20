@@ -1213,7 +1213,7 @@ server:
 
 
 		g_timeout_add(10,checkScan,NULL);
-		g_timeout_add(5,checkCenters,NULL);
+		g_timeout_add(1,checkCenters,NULL);
 		g_timeout_add(100,checkAuth,NULL);
 	}
 	/////////////////////////my code
