@@ -23,7 +23,7 @@
 #define TesterTargetNum 2
 #define ListInterval 50
 
-#define TEST_INTERVAL 200
+#define TEST_INTERVAL 500
 
 using namespace std;
 //char *socket_path = "./socket";
