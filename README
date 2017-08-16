@@ -1,3 +1,8 @@
+#BLE tree network
+
+##Introduction
+    This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With these two BLE modeuls, multiple Pi 3 can form a BLE tree network.
+
 Bleno to TinyB (in notification callback):
     1.
         Receive from Bleno: n senso_type service_type (eg. n14)
