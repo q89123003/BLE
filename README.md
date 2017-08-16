@@ -4,17 +4,17 @@
 This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With these two BLE modeuls, multiple Pi 3 can form a BLE tree network.
 
 ## Prerequisites
-Install [bleno] (https://github.com/sandeepmistry/bleno) first.
+Install [bleno](https://github.com/sandeepmistry/bleno) first.
 
 ## Build
 1. Clone this repository.
 2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory.
 3. Change the directory.
-  `cd ./centers`
+    `cd ./centers`
 4. Compile and build `sensorCenter`
   `make`
 5. Change the directory/
-  `cd ../bluez-5.43/attrib`
+    `cd ../bluez-5.43/attrib`
 6. Compile and build 'gatttool`
    `make`
 
