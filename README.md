@@ -33,9 +33,9 @@ make
 cd ../../
 ```
 
-##Run
+## Run
 
-###Reset
+### Reset
 
 Before running the project, the plugged-in BLE module must be reset every time after the Pi 3 is turned on.
 Use:
