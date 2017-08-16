@@ -10,13 +10,23 @@ Install [bleno](https://github.com/sandeepmistry/bleno) first.
 1. Clone this repository.
 2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory.
 3. Change the directory.
-    `cd ./centers`
+ ```
+ cd ./centers
+ ```
 4. Compile and build `sensorCenter`
-  `make`
+```
+make
+```
+
 5. Change the directory/
-    `cd ../bluez-5.43/attrib`
-6. Compile and build 'gatttool`
-   `make`
+```
+cd ../bluez-5.43/attrib
+```
+
+6. Compile and build `gatttool`
+```
+make
+```
 
 
 
