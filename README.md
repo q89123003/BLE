@@ -13,17 +13,17 @@ Install [bleno](https://github.com/sandeepmistry/bleno) first.
  ```
  cd ./centers
  ```
-4. Compile and build `sensorCenter`
+4. Compile and build `sensorCenter`.
 ```
 make
 ```
 
-5. Change the directory/
+5. Change the directory.
 ```
 cd ../bluez-5.43/attrib
 ```
 
-6. Compile and build `gatttool`
+6. Compile and build `gatttool`.
 ```
 make
 ```
