@@ -43,6 +43,21 @@ Use:
 sudo bash reset.sh
 ```
 
+### Run
+
+Use:
+```
+sudo bash run.sh
+```
+
+### Stop
+
+To stop the project, press `Ctrl` + `C` first to stop the foreground process first and type
+```
+sudo bash stop.sh
+```
+in terminal.
+
 
 Bleno to TinyB (in notification callback):
     1.
