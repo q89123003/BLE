@@ -1,0 +1,6 @@
+type 1
+power 2
+MAC AA:AA:AA:AA:AA:AA
+service 4
+BAN BB:BB:BB:BB:BB:BB
+BAN CC:CC:CC:CC:CC:CC
