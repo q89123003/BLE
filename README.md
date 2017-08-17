@@ -52,7 +52,7 @@ sudo bash run.sh
 
 ### Stop
 
-To stop the project, press `Ctrl` + `C` first to stop the foreground process first and type
+To stop the project, press `Ctrl` + `c` first to stop the foreground process first and type
 ```
 sudo bash stop.sh
 ```
