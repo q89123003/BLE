@@ -44,7 +44,7 @@ Before running the project, a setting file should be named `info.txt` and put in
 Before running the project, the plugged-in BLE module must be reset every time after the Pi 3 is turned on.
 Use:
 ```
-sudo bash reset.sh
+sudo bash centers/reset.sh
 ```
 
 ### Run
