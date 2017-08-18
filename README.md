@@ -1,7 +1,9 @@
 # BLE tree network
 
 ## Introduction
-This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With this project and two BLE modules, multiple Pi 3 can form a BLE tree network.
+This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With this project and two BLE modules, multiple Pi 3s can form a BLE tree network.
+There are four main processes in this project: Master Agent ([gatttool.c](./bluez-5.43/attrib/gatttool.c)), Slave Agent ([main_v2.js](./echo/main_v2.js) & [characteristic_v2.js](./echo/characteristic_v2.js)), Scan Center ([server_scan.py](./centers/server_scan.py)) and Sensor Center ([sensorCenter.cpp](./centers/sensorCenter.cpp)).
+
 
 ## Prerequisites
 Install [bleno](https://github.com/sandeepmistry/bleno) first. Note that `bluetoothd` should be disabled as the document of `bleno` describes.
