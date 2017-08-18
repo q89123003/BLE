@@ -47,6 +47,17 @@ Use:
 sudo bash centers/reset.sh
 ```
 
+If the terminal shows
+```
+bleno - echo
+on -> stateChange: poweredOn
+on -> advertisingStart: success
+```
+
+then the process of reseting is complete.
+
+Press `Ctrl` + `c` to exit.
+
 ### Run
 
 Use:
