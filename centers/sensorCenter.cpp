@@ -1,3 +1,48 @@
+/*
+This file is the code of Sensor Center.
+
+Sensor Center is like the brain of the device. It records the table of the parent and children
+and their corresponding MAC addresses and controls where packets should be transmitted to.
+
+Sensor Center creates two Unix domain socekt files, '/tmp/sensor.socket' and '/tmp/sensor_node.socket'
+to communicat with Master Agent and Slave Agent
+
+Slave Agent to Master Agent (in notification callback):
+    1.
+        Receive from Slave Agent: n senso_type service_type (eg. n14)
+        Send to Sensor Center: n MAC senso_type service_type (eg. nAA:BB:CC:DD:EE:FF14) // cat MAC in middle
+    2.
+        Receive from Slave Agent: t payload (eg. tabcd)
+        Send to Sensor Center: t payload (eg. tabcd) //no change
+
+Scan Center to Master Agent (in Socket Received)
+    1.
+        Receive from Scan Center: MAC (eg. AA:BB:CC:DD:EE:FF)
+        Connect to MAC
+
+Sensor Center to Master Agent (in Socket Received)
+    1.
+        Receive from Sensor Center: 0 selfNum (eg. 05)
+        Maintain a variable "selfNum = 5"
+    2.
+        Receive from Sensor Center: t MAC payload (eg. tAA:BB:CC:DD:EE:FFabcd)
+        Send to Slave Agent: t payload (eg. tabcd)
+    3.
+
+Connection callback
+    1.
+        Maintain a variable "ConnectionCount"
+        Start from 1. "ConnectionCount += 1" after every successful connection.
+    2.
+        Send to Sensor Center: 0 ConnectionCount (eg. 01)
+        Note that this ConnectionCount has not yet plussed 1.
+    3. 
+        Send to Slave Agent : n selfNum @ connectionNum (eg. n5@1)
+        Note that this ConnectionCount has not yet plussed 1.
+    4.
+        ConnectionCount += 1
+*/
+
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/un.h>

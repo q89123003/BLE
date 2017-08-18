@@ -35,6 +35,10 @@ cd ../../
 
 ## Run
 
+### Maintain the setting file
+
+Before running the project, a setting file should be named `info.txt` and put in `/home/pi/Documents`. Proper setting file can be referred to [info_example.txt](./info_example.txt).
+
 ### Reset
 
 Before running the project, the plugged-in BLE module must be reset every time after the Pi 3 is turned on.
@@ -47,7 +51,7 @@ sudo bash reset.sh
 
 Use:
 ```
-sudo bash run.sh
+sudo bash run_v2.sh
 ```
 
 ### Stop
@@ -57,39 +61,3 @@ To stop the project, press `Ctrl` + `c` first to stop the foreground process fir
 sudo bash stop.sh
 ```
 in terminal.
-
-
-Bleno to TinyB (in notification callback):
-    1.
-        Receive from Bleno: n senso_type service_type (eg. n14)
-        Send to Sensor Center: n MAC senso_type service_type (eg. nAA:BB:CC:DD:EE:FF14) // cat MAC in middle
-    2.
-        Receive from Bleno: t payload (eg. tabcd)
-        Send to Sensor Center: t payload (eg. tabcd) //no change
-
-Scan Center to TinyB (in Socket Received)
-    1.
-        Receive from Scan Center: MAC (eg. AA:BB:CC:DD:EE:FF)
-        Connect to MAC
-
-Sensor Center to TinyB (in Socket Received)
-    1.
-        Receive from Sensor Center: 0 selfNum (eg. 05)
-        Maintain a variable "selfNum = 5"
-    2.
-        Receive from Sensor Center: t MAC payload (eg. tAA:BB:CC:DD:EE:FFabcd)
-        Send to Bleno: t payload (eg. tabcd)
-    3.
-
-Connection callback
-    1.
-        Maintain a variable "ConnectionCount"
-        Start from 1. "ConnectionCount += 1" after every successful connection.
-    2.
-        Send to Sensor Center: 0 ConnectionCount (eg. 01)
-        Note that this ConnectionCount has not yet plussed 1.
-    3. 
-        Send to Bleno : n selfNum @ connectionNum (eg. n5@1)
-        Note that this ConnectionCount has not yet plussed 1.
-    4.
-        ConnectionCount += 1

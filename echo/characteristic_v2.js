@@ -86,6 +86,8 @@ EchoCharacteristic.prototype.onWriteRequest = function(data, offset, withoutResp
   callback(this.RESULT_SUCCESS);
 };
 
+//When subscribed, it means Slave Agent is connected.
+//Set _updateValueCallback to proper callback function and tell Scan Center.
 EchoCharacteristic.prototype.onSubscribe = function(maxValueSize, updateValueCallback) {
   console.log('EchoCharacteristic - onSubscribe');
   this._subscribeFlag = 1;
@@ -98,17 +100,6 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
 
   this._updateValueCallback = null;
 };
-
-EchoCharacteristic.prototype.checkClient = function(callback) {
-  //console.log("Checking");
-  //console.log("Flag = " + sendFlag.toString());
-  if(sendFlag){
-    console.log("Send Flag == 1");
-    callback(sendBuffer); 
-    sendFlag = 0;
-  }
-}
-
 
 
 module.exports.EchoCharacteristic = EchoCharacteristic;

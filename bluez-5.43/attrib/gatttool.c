@@ -22,6 +22,25 @@
  *
  */
 
+
+/*
+This file is the code of Master Agent.
+
+The primary function of Master Agent is to control one BLE module to work in the master mode
+and establish connections to the BLE module in slave modes on other devices.
+
+Master Agent connects to two Unix domain socket, '/tmp/scan.socket' and '/tmp/sensor.socket'.
+
+Master Agent receives the MAC addresses of surrounding devices from Scan Center through 'scan.socket'.
+After it receives a MAC address, it will connect to the device by this MAC address
+and register a callback function (myEvents_handler) to handle the notification from the child devices.
+
+Master Agent communicates with Sensor Center through 'sensor.socket'. In the callback function (myEvents_handler),
+Master Agent can get the packets of the notification from child devices and Master Agent will transmit the packets to Sensor Center.
+Master Agent also uses a timer function to check 'sensor.sockcet'. If Master  Agent receives packets from Sensor Center
+through the socekt, it will call a function (gatt_write_char) to send the packets to child devices.
+*/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
