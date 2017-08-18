@@ -7,8 +7,8 @@ This project allows the built-in BLE module and one plugged-in BLE module to coo
 Install [bleno](https://github.com/sandeepmistry/bleno) first. Note that `bluetoothd` should be disabled as the document of `bleno` describes.
 
 ## Build
-1. Clone this repository.
-2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory.
+1. Clone this repository under the directory `/home/pi/Documents`.
+2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory (`/home/pi/Documents/BLE`.
 3. Change the directory.
  ```
  cd ./centers
