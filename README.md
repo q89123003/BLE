@@ -8,7 +8,7 @@ Install [bleno](https://github.com/sandeepmistry/bleno) first. Note that `blueto
 
 ## Build
 1. Clone this repository under the directory `/home/pi/Documents`.
-2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory (`/home/pi/Documents/BLE`.
+2. Clone [bleno repository](https://github.com/sandeepmistry/bleno) under this directory (`/home/pi/Documents/BLE`).
 3. Change the directory.
  ```
  cd ./centers
