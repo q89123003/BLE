@@ -886,16 +886,13 @@ static void myConnect_cb(GIOChannel *io, GError *err, gpointer user_data)
 //------------------------------Receive message from scan center----------------------------//
 static gboolean checkScan(gpointer arg)
 {
-    //g_print(".");
     if(--scanCounter == 0){
-        //g_print("\b\b\b\b\b\b\b\b\b");
+ 
         scanCounter = 5;
-        //退出循环
-        //注销定时器
+
         bytes_read = recv(sockfd_scan, buffer, sizeof(buffer), MSG_DONTWAIT);
 
 		//Receive MAC
-
         if(bytes_read > 0 && connectingFlag == 0){
 			connectingFlag = 1;
         	GError *gerr = NULL;
@@ -933,7 +930,6 @@ static gboolean checkScan(gpointer arg)
 		}
         return TRUE;
     }
-    //定时器继续运行
     return TRUE;
 }
 //------------------------------------------------------------------------//
@@ -941,12 +937,8 @@ static gboolean checkScan(gpointer arg)
 //--------------------------------Receive message from sensor center---------------------------//
 static gboolean checkCenters(gpointer arg)
 {
-    //g_print(".");
     if(--centerCounter == 0){
-        //g_print("\b\b\b\b\b\b\b\b\b");
         centerCounter = 1;
-        //退出循环
-        //注销定时器
         bytes_read = recv(sockfd_sensor, buffer2, sizeof(buffer2), MSG_DONTWAIT);
         if(bytes_read > 0){
         	g_print("Received message from sockfd_sensor: %s\n", buffer2);
@@ -1037,7 +1029,6 @@ static gboolean checkCenters(gpointer arg)
     	}
         return TRUE;
     }
-    //定时器继续运行
     return TRUE;
 }
 //-----------------------------------------------------------------//
@@ -1045,10 +1036,8 @@ static gboolean checkCenters(gpointer arg)
 //----------------------------------no use now--------------------------------------//
 static gboolean checkAuth(gpointer arg){
 	if(--centerCounter == 0){
-        //g_print("\b\b\b\b\b\b\b\b\b");
         centerCounter = 5;
-        //退出循环
-        //注销定时器
+
         bytes_read = recv(sockfd_auth, buffer3, sizeof(buffer3), MSG_DONTWAIT);
         if(bytes_read > 0){
         	g_print("Received message from sockfd_auth: %s\n", buffer3);
@@ -1081,7 +1070,6 @@ static gboolean checkAuth(gpointer arg){
     	}
         return TRUE;
     }
-    //定时器继续运行
     return TRUE;
 }
 //------------------------------------------------------------------//
@@ -1173,19 +1161,6 @@ int main(int argc, char *argv[])
 			goto done;
 	}
 	
-	/*
-	//chan = gatt_connect("hci1", "98:4F:EE:0F:4C:9E", opt_dst_type, opt_sec_level,
-	//				opt_psm, opt_mtu, myConnect_cb, &gerr);
-	//g_print("src = %s, dst = %s, dst_type = %s, psm = %d, mtu = %d, sec_level = %s\n",
-	//		opt_src, "98:4F:EE:0F:4C:9E", opt_dst_type,
-	//		opt_psm, opt_mtu, opt_sec_level);
-	if (chan == NULL) {
-		g_printerr("%s\n", gerr->message);
-		g_clear_error(&gerr);
-		got_error = TRUE;
-		goto done;
-	}
-	*/
 
 	///////////////////my code
 server:
@@ -1198,17 +1173,11 @@ server:
 		addr_scan.sun_family = AF_UNIX;
 		strcpy(addr_scan.sun_path, "/tmp/scan.socket");
 		
-		//bind(sockfd_scan, (struct sockaddr*)&addr_scan, sizeof(addr_scan));
+
 		if (connect(sockfd_scan, (struct sockaddr*)&addr_scan, sizeof(addr_scan)) == -1) {
     	perror("scan center connect error");
     	exit(-1);
   		}
-
-
-		/* make it listen to socket with max 1 connections */
-		//listen(sockfd_scan, 2);
-		
-		//scanfd = accept(sockfd_scan, NULL, NULL);
 
 		//client, socket 2, for sensor center
 		sockfd_sensor = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -1220,15 +1189,13 @@ server:
     	perror("sensor center connect error");
     	exit(-1);
   		}
-
   		
 
 		//if (connect(sockfd_auth, (struct sockaddr*)&addr_auth, sizeof(addr_auth)) == -1) {
     	//perror("auth center connect error");
     	//exit(-1);
   		//}
-
-  		
+		
 
 
 		g_timeout_add(10,checkScan,NULL);

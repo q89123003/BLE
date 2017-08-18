@@ -215,18 +215,6 @@ int main(int argc, char *argv[]) {
   clientfd_node = accept(fd_node, NULL, NULL);
   cout << "Accepted second socket\n";
 
-    //sockfd_scan = socket(AF_UNIX, SOCK_STREAM, 0);
-    //memset(&addr_scan, 0, sizeof(addr_scan));
-    //addr_scan.sun_family = AF_UNIX;
-    //strcpy(addr_scan.sun_path, "/tmp/scan.socket");
-    
-    //bind(sockfd_scan, (struct sockaddr*)&addr_scan, sizeof(addr_scan));
-
-    /* make it listen to socket with max 1 connections */
-    //listen(sockfd_scan, 2);
-    
-    //scanfd = accept(sockfd_scan, NULL, NULL);
-
   clock_t start;
   start = clock();
 
