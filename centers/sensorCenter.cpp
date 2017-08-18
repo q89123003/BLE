@@ -334,7 +334,8 @@ int main(int argc, char *argv[]) {
                   char dataNumBuffer[8];
                   if(myService == 1){
                     read_dht_data();
-                    sprintf(dataNumBuffer, "%d\0", humidity);
+                    //sprintf(dataNumBuffer, "%d\0", humidity);
+                    sprintf(dataNumBuffer, "%d\0", celsius);
                   }
                   else if(myService == 3){
                     changeLed();
