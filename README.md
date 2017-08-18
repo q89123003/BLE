@@ -1,7 +1,7 @@
 # BLE tree network
 
 ## Introduction
-This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With these two BLE modeuls, multiple Pi 3 can form a BLE tree network.
+This project allows the built-in BLE module and one plugged-in BLE module to cooperate on Raspberry Pi 3 model B. With this project and two BLE modules, multiple Pi 3 can form a BLE tree network.
 
 ## Prerequisites
 Install [bleno](https://github.com/sandeepmistry/bleno) first. Note that `bluetoothd` should be disabled as the document of `bleno` describes.
