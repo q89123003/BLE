@@ -74,3 +74,8 @@ To stop the project, press `Ctrl` + `c` first to stop the foreground process fir
 sudo bash stop.sh
 ```
 in terminal.
+
+### User Device
+
+To allow a user device to interact with the BLE network, please download the Android Studio [project](https://drive.google.com/file/d/0B5pAHUprrBbMMnd4VkJ3RDR5SDg/view?usp=sharing) and build it on a Android phone.
+After the app is built, simply execute it and the device will be connected to the BLE network automatically.
